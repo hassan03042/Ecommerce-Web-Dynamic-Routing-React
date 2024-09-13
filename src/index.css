@@ -96,8 +96,8 @@
 
 .input:hover,
 .input:focus {
-  border: 2px solid #4A9DEC;
-  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  border: 2px solid orange;
+  box-shadow: 0px 0px 0px 7px rgba(245, 127, 37, 0.2);
   background-color: white;
 }
 
