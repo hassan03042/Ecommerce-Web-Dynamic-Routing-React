@@ -2,11 +2,11 @@
 
 
   function Header() {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
 
-  const filteredArr = post.filter(
-    (data) => data.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
-  );
+  // const filteredArr = post.filter(
+  //   (data) => data.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
+  // );
       return (
         <header className="text-gray-600 body-font">
     <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
