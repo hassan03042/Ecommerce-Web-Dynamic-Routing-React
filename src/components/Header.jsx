@@ -1,7 +1,13 @@
-import React from "react";
-import { ShoppingCartOutlined } from '@ant-design/icons';
+import React, { useContext } from "react";
+import { ShoppingCartOutlined } from "@ant-design/icons";
+import { Badge } from "antd";
+import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 function Header() {
+  const {cartItems} = useContext (CartContext)
+  console.log("card Context =>", cartItems);
+  
   // const [search, setSearch] = useState("")
 
   // const filteredArr = post.filter(
@@ -27,16 +33,23 @@ function Header() {
             <span className="ml-3 text-xl bg-white">Global Store</span>
           </a>
           <nav className="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center">
-            <input className="input" placeholder="Search" onChange={(e) => setSearch(e.target.value)}  />
-
+            <input
+              className="input"
+              placeholder="Search"
+              onChange={(e) => setSearch(e.target.value)}
+            />
           </nav>
-<button>
 
-          <ShoppingCartOutlined style={{ fontSize: 24 }} />
-</button>
+          <Link to="/cart">
+            <Badge count={cartItems.length}>
+              <button>
+                <ShoppingCartOutlined style={{ fontSize: 24 }} />
+              </button>
+            </Badge>
+          </Link>
         </div>
       </header>
-      <div style={{ height: '80px' }}></div>
+      <div style={{ height: "80px" }}></div>
     </div>
   );
 }

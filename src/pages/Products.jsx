@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import CategoryChip from "../components/CategoryChip";
 
 function Products() {
+
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [chosenCategory, setChosenCategory] = useState("All");
@@ -40,16 +41,16 @@ function Products() {
     <div className="container mx-auto">
       {products.length === 0 ? (
         <h1 className="text-center text-3xl"> 
-        <div class="loader">
-                       <div class="bar1"></div>
-                       <div class="bar2"></div>
-                       <div class="bar3"></div>
-                       <div class="bar4"></div>
-                       <div class="bar5"></div>
-                       <div class="bar6"></div>
-                       <div class="bar7"></div>
-                       <div class="bar8"></div>
-                       <div class="bar9"></div>
+        <div className="loader">
+                       <div className="bar1"></div>
+                       <div className="bar2"></div>
+                       <div className="bar3"></div>
+                       <div className="bar4"></div>
+                       <div className="bar5"></div>
+                       <div className="bar6"></div>
+                       <div className="bar7"></div>
+                       <div className="bar8"></div>
+                       <div className="bar9"></div>
                    </div></h1>
       ) : (
         <div>

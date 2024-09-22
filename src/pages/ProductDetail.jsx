@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 function ProductDetail() {
+  const {cartItems, addItemToCart, isItemAdded} = useContext (CartContext)
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
@@ -27,16 +29,16 @@ function ProductDetail() {
     <div className="container mx-auto">
       {loading ? (
         <h1 className="text-center text-3xl">
-        <div class="loader">
-                       <div class="bar1"></div>
-                       <div class="bar2"></div>
-                       <div class="bar3"></div>
-                       <div class="bar4"></div>
-                       <div class="bar5"></div>
-                       <div class="bar6"></div>
-                       <div class="bar7"></div>
-                       <div class="bar8"></div>
-                       <div class="bar9"></div>
+        <div className="loader">
+                       <div className="bar1"></div>
+                       <div className="bar2"></div>
+                       <div className="bar3"></div>
+                       <div className="bar4"></div>
+                       <div className="bar5"></div>
+                       <div className="bar6"></div>
+                       <div className="bar7"></div>
+                       <div className="bar8"></div>
+                       <div className="bar9"></div>
                    </div></h1>
       ) : notFound ? (
         <h1 className="text-center text-3xl">Product Not Found</h1>
@@ -81,8 +83,11 @@ function ProductDetail() {
                   <span className="title-font font-medium text-2xl text-gray-900">
                     ${product.price}
                   </span>
-                  <button className="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded">
-                    Add to Cart
+                  <button className="flex ml-auto text-white bg-orange-500 border-0 py-2 px-6 focus:outline-none hover:bg-orange-600 rounded"
+                  onClick={()=>addItemToCart(product)}
+                  >
+                    {isItemAdded(product.id)? `Added (${isItemAdded(product.id).quantity})` : `Add to Cart`}
+                    
                   </button>
                   <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
                     <svg

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 
 function ProductCard({ item }) {
   const { thumbnail, category, title, price, id } = item;
+  
 
   return (
     <Link
