@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ShoppingCartOutlined } from "@ant-design/icons";
 import { Badge } from "antd";
 import { Link } from "react-router-dom";
@@ -8,14 +8,14 @@ function Header() {
   const {cartItems} = useContext (CartContext)
   console.log("card Context =>", cartItems);
   
-  // const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("")
 
-  // const filteredArr = post.filter(
-  //   (data) => data.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
-  // );
+  const filteredArr = cartItems.filter(
+    (data) => data.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
+  );
   return (
     <div>
-      <header className="text-gray-600 body-font fixed top-0 left-0 w-full">
+      <header className="text-gray-600 body-font fixed z-10 border top-0 left-0 w-full">
         <div className="container mx-auto bg-white flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
             <svg
