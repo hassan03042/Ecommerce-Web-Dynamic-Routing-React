@@ -15,7 +15,7 @@ function Header() {
   );
   return (
     <div>
-      <header className="text-gray-600 body-font fixed z-10 border top-0 left-0 w-full">
+      <header className="text-gray-600 body-font fixed z-10 top-0 left-0 w-full">
         <div className="container mx-auto bg-white flex flex-wrap p-5 flex-col md:flex-row items-center">
           <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
             <svg

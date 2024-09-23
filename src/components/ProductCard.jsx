@@ -31,7 +31,7 @@ function ProductCard({ item }) {
   <a className="block relative h-48 rounded overflow-hidden">
     <img
       alt="ecommerce"
-      className="object-cover object-center w-full h-full block"
+      className="object-cover object-center w-full h-full block border rounded-lg border-orange-300"
       src={thumbnail}
     />
   </a>
