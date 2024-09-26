@@ -27,7 +27,7 @@ function ProductCard({ item }) {
           <p className="mt-1">${price}</p>
         </div>
       </div> */}
-      <div>
+      <div className="border rounded-lg p-4">
   <a className="block relative h-48 rounded overflow-hidden">
     <img
       alt="ecommerce"
