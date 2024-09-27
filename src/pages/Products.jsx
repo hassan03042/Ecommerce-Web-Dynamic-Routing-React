@@ -14,7 +14,7 @@ function Products() {
     console.log("Use effect Call Hogya");
     const url =
       chosenCategory === "All"
-        ? "https://dummyjson.com/products"
+        ? "https://dummyjson.com/products?limit=190"
         : `https://dummyjson.com/products/category/${chosenCategory}`;
     axios
       .get(url)
