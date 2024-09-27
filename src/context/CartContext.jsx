@@ -17,6 +17,13 @@ function CartContextProvider({ children }) {
     setCartItems([...arr])
   }
 
+  function LessQuantityFromCart(id) { // item is now a parameter
+    const arr = cartItems;
+    const itemIndex = cartItems.findIndex((data) => data.id == id);
+      arr[itemIndex].quantity--;
+      setCartItems([...arr]);
+    }
+
   function removeItemFromCart(id) {
     const arr = cartItems;
     const itemIndex = cartItems.findIndex((data) => data.id == id);
@@ -36,7 +43,7 @@ function CartContextProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addItemToCart, removeItemFromCart, isItemAdded }}
+      value={{ cartItems, addItemToCart, removeItemFromCart, isItemAdded, LessQuantityFromCart }}
     >
       {children}
     </CartContext.Provider>
