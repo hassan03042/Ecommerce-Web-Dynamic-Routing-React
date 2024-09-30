@@ -8,7 +8,7 @@ function CartContextProvider({ children }) {
 
   useEffect(() => {
     if (isLoaded) {
-      localStorage.setItem("cartIems", JSON.stringify(cartItems));
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
   }, [cartItems]);
 
