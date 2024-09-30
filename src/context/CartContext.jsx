@@ -4,19 +4,24 @@ export const CartContext = createContext();
 
 function CartContextProvider({ children }) {
   const [cartItems, setCartItems] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  useEffect(()=>{
-    const itemsFromStorage = localStorage.getItem('cartItems')
-    if(cartItems){
-      setCartItems([...JSON.parse(itemsFromStorage)])
-      }
-  },[])
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("cartIems", JSON.stringify(cartItems));
+    }
+  }, [cartItems]);
 
-  useEffect(()=>{
-    localStorage.setItem('cartIems', JSON.stringify(cartItems))
-  },[cartItems])
+  useEffect(() => {
+    const itemsFromStorage = localStorage.getItem("cartItems");
+    if (itemsFromStorage) {
+      setCartItems([...JSON.parse(itemsFromStorage)]);
+      setIsLoaded(true);
+    }
+  }, []);
 
-  function addItemToCart(item) { // item is now a parameter
+  function addItemToCart(item) {
+    // item is now a parameter
     const arr = cartItems;
     const itemIndex = cartItems.findIndex((data) => data.id == item.id);
     if (itemIndex == -1) {
@@ -25,15 +30,16 @@ function CartContextProvider({ children }) {
     } else {
       arr[itemIndex].quantity++;
     }
-    setCartItems([...arr])
+    setCartItems([...arr]);
   }
 
-  function LessQuantityFromCart(id) { // item is now a parameter
+  function LessQuantityFromCart(id) {
+    // item is now a parameter
     const arr = cartItems;
     const itemIndex = cartItems.findIndex((data) => data.id == id);
-      arr[itemIndex].quantity--;
-      setCartItems([...arr]);
-    }
+    arr[itemIndex].quantity--;
+    setCartItems([...arr]);
+  }
 
   function removeItemFromCart(id) {
     const arr = cartItems;
@@ -54,7 +60,13 @@ function CartContextProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cartItems, addItemToCart, removeItemFromCart, isItemAdded, LessQuantityFromCart }}
+      value={{
+        cartItems,
+        addItemToCart,
+        removeItemFromCart,
+        isItemAdded,
+        LessQuantityFromCart,
+      }}
     >
       {children}
     </CartContext.Provider>
