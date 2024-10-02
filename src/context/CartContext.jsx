@@ -1,76 +1,74 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react"; 
 
-export const CartContext = createContext();
+export const CartContext = createContext(); 
 
-function CartContextProvider({ children }) {
-  const [cartItems, setCartItems] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+function CartContextProvider({ children }) {   
+  const [cartItems, setCartItems] = useState([]);   
+  const [isLoaded, setIsLoaded] = useState(false);    
 
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    }
-  }, [cartItems]);
-
-  useEffect(() => {
-    const itemsFromStorage = localStorage.getItem("cartItems");
-    if (itemsFromStorage) {
-      setCartItems([...JSON.parse(itemsFromStorage)]);
+  useEffect(() => {     
+    const itemsFromStorage = localStorage.getItem("cartItems");     
+    if (itemsFromStorage) {       
+      setCartItems(JSON.parse(itemsFromStorage));       
+      setIsLoaded(true);     
+    } else {
       setIsLoaded(true);
     }
-  }, []);
+  }, []);    
 
-  function addItemToCart(item) {
-    // item is now a parameter
-    const arr = cartItems;
-    const itemIndex = cartItems.findIndex((data) => data.id == item.id);
-    if (itemIndex == -1) {
-      //-1 means item array mai nhi hai
-      arr.push({ ...item, quantity: 1 });
-    } else {
-      arr[itemIndex].quantity++;
-    }
-    setCartItems([...arr]);
-  }
+  useEffect(() => {     
+    if (isLoaded) {       
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));     
+    }   
+  }, [cartItems, isLoaded]);    
 
-  function LessQuantityFromCart(id) {
-    // item is now a parameter
-    const arr = cartItems;
-    const itemIndex = cartItems.findIndex((data) => data.id == id);
-    arr[itemIndex].quantity--;
-    setCartItems([...arr]);
-  }
+  function addItemToCart(item) {     
+    setCartItems((prevItems) => {
+      const itemIndex = prevItems.findIndex((data) => data.id === item.id);
+      if (itemIndex === -1) {
+        return [...prevItems, { ...item, quantity: 1 }];
+      } else {
+        const updatedItems = [...prevItems];
+        updatedItems[itemIndex].quantity++;
+        return updatedItems;
+      }
+    });
+  }    
 
-  function removeItemFromCart(id) {
-    const arr = cartItems;
-    const itemIndex = cartItems.findIndex((data) => data.id == id);
-    arr.splice(itemIndex, 1);
-    setCartItems([...arr]);
-  }
+  function lessQuantityFromCart(id) {     
+    setCartItems((prevItems) => {
+      const itemIndex = prevItems.findIndex((data) => data.id === id);
+      if (itemIndex !== -1 && prevItems[itemIndex].quantity > 1) {
+        const updatedItems = [...prevItems];
+        updatedItems[itemIndex].quantity--;
+        return updatedItems;
+      } else {
+        return prevItems.filter((item) => item.id !== id);
+      }
+    });
+  }    
 
-  function isItemAdded(id) {
-    const arr = cartItems;
-    const itemIndex = cartItems.findIndex((data) => data.id == id);
-    if (itemIndex == -1) {
-      return null;
-    } else {
-      return arr[itemIndex];
-    }
-  }
+  function removeItemFromCart(id) {     
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));   
+  }    
 
-  return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        addItemToCart,
-        removeItemFromCart,
-        isItemAdded,
-        LessQuantityFromCart,
-      }}
-    >
-      {children}
-    </CartContext.Provider>
-  );
-}
+  function isItemAdded(id) {     
+    return cartItems.find((data) => data.id === id) || null;   
+  }    
+
+  return (     
+    <CartContext.Provider       
+      value={{         
+        cartItems,         
+        addItemToCart,         
+        removeItemFromCart,         
+        isItemAdded,         
+        lessQuantityFromCart,       
+      }}     
+    >       
+      {children}     
+    </CartContext.Provider>   
+  ); 
+} 
 
 export default CartContextProvider;

@@ -6,13 +6,15 @@ import { CartContext } from "../context/CartContext";
 
 function Header() {
   const {cartItems} = useContext (CartContext)
-  console.log("card Context =>", cartItems);
+  console.log("cart Context =>", cartItems);
   
   const [search, setSearch] = useState("")
+  console.log(search);
 
   const filteredArr = cartItems.filter(
     (data) => data.title.toLowerCase().indexOf(search.toLowerCase()) !== -1
   );
+  console.log("filtered arr",filteredArr);
   return (
     <div>
       <header className="text-gray-600 body-font fixed z-10 top-0 left-0 w-full">

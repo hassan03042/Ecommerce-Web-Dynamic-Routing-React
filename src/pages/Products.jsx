@@ -10,10 +10,10 @@ function Products() {
   const [chosenCategory, setChosenCategory] = useState("All");
   const [limit, setLimit] = useState(12);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true); // Track if more products are available
+  const [hasMore, setHasMore] = useState(true); 
 
   useEffect(() => {
-    if (!hasMore) return; // If no more products, do not fetch
+    if (!hasMore) return;
 
     setLoading(true);
 
@@ -27,7 +27,7 @@ function Products() {
       .then((res) => {
         const fetchedProducts = res.data.products;
         if (fetchedProducts.length < limit) {
-          setHasMore(false); // No more products to load
+          setHasMore(false); 
         }
         setProducts(fetchedProducts);
         setLoading(false);
@@ -59,12 +59,12 @@ function Products() {
       }
     };
 
-    window.addEventListener("scroll", handleScroll); // Add scroll listener
+    window.addEventListener("scroll", handleScroll); 
 
     return () => {
-      window.removeEventListener("scroll", handleScroll); // Cleanup on unmount
+      window.removeEventListener("scroll", handleScroll); 
     };
-  }, [loading, hasMore]); // Attach the scroll event only once on mount
+  }, [loading, hasMore]);
 
   return (
     <div className="container mx-auto">
