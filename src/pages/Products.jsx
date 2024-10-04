@@ -3,14 +3,17 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import CategoryChip from "../components/CategoryChip";
+import { Pagination } from "antd";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [chosenCategory, setChosenCategory] = useState("All");
   const [limit, setLimit] = useState(12);
+  const [skip, setSkip] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true); 
+  const [hasMore, setHasMore] = useState(true);
+  const [total, setTotal] = useState(true);
 
   useEffect(() => {
     if (!hasMore) return;
@@ -27,16 +30,18 @@ function Products() {
       .then((res) => {
         const fetchedProducts = res.data.products;
         if (fetchedProducts.length < limit) {
-          setHasMore(false); 
+          setHasMore(false);
         }
         setProducts(fetchedProducts);
+        setTotal(res.data.total);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        console.log(res);
         setLoading(false);
       });
-  }, [chosenCategory, limit]);
+  }, [chosenCategory, limit, skip]);
 
   useEffect(() => {
     axios
@@ -49,22 +54,29 @@ function Products() {
       });
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.offsetHeight - 10 && !loading && hasMore
-      ) {
-        setLimit((prevLimit) => prevLimit + 8);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (
+  //       window.innerHeight + document.documentElement.scrollTop >=
+  //         document.documentElement.offsetHeight - 10 &&
+  //       !loading &&
+  //       hasMore
+  //     ) {
+  //       console.log("limit", limit);
+  //       console.log("total", total);
 
-    window.addEventListener("scroll", handleScroll); 
+  //       if (limit < total) {
+  //         setLimit(limit + 8);
+  //       }
+  //     }
+  //   };
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll); 
-    };
-  }, [loading, hasMore]);
+  //   window.addEventListener("scroll", handleScroll);
+
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [loading, hasMore, limit]);
 
   return (
     <div className="container mx-auto">
@@ -102,7 +114,20 @@ function Products() {
               />
             ))}
           </div>
-
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <div className="dot-spinner">
+                <div className="dot-spinner__dot" />
+                <div className="dot-spinner__dot" />
+                <div className="dot-spinner__dot" />
+                <div className="dot-spinner__dot" />
+                <div className="dot-spinner__dot" />
+                <div className="dot-spinner__dot" />
+                <div className="dot-spinner__dot" />
+                <div className="dot-spinner__dot" />
+              </div>
+            </div>
+          ) : null}
           <div className="flex flex-wrap -m-4 my-4">
             {products.map((item) => (
               <ProductCard item={item} key={item.id} />
@@ -111,20 +136,12 @@ function Products() {
         </div>
       )}
 
-      {loading ? (
-        <div className="flex justify-center items-center">
-          <div className="dot-spinner">
-            <div className="dot-spinner__dot" />
-            <div className="dot-spinner__dot" />
-            <div className="dot-spinner__dot" />
-            <div className="dot-spinner__dot" />
-            <div className="dot-spinner__dot" />
-            <div className="dot-spinner__dot" />
-            <div className="dot-spinner__dot" />
-            <div className="dot-spinner__dot" />
-          </div>
-        </div>
-      ) : null}
+      <Pagination
+        onChange={(num) => setSkip((num - 1) * 20)}
+        defaultCurrent={1}
+        total={total}
+        pageSize={limit}
+      />
     </div>
   );
 }
