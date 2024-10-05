@@ -100,7 +100,8 @@ function Products() {
         </div>
       )}
 
-      <Pagination
+<div className="flex justify-center m-6 font-bold">
+  <Pagination
         onChange={(num) => {
           setSkip((num - 1) * limit);
         }}
@@ -109,6 +110,8 @@ function Products() {
         total={total}
         pageSize={limit}
       />
+</div>
+      
     </div>
   );
 }

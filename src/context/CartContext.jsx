@@ -10,10 +10,8 @@ function CartContextProvider({ children }) {
     const itemsFromStorage = localStorage.getItem("cartItems");     
     if (itemsFromStorage) {       
       setCartItems(JSON.parse(itemsFromStorage));       
-      setIsLoaded(true);     
-    } else {
-      setIsLoaded(true);
-    }
+    } 
+    setIsLoaded(true); // Move this line here to avoid duplication
   }, []);    
 
   useEffect(() => {     
@@ -42,11 +40,13 @@ function CartContextProvider({ children }) {
         const updatedItems = [...prevItems];
         updatedItems[itemIndex].quantity--;
         return updatedItems;
-      } else {
+      } else if (itemIndex !== -1) {
+        // Remove item if quantity is 1
         return prevItems.filter((item) => item.id !== id);
       }
+      return prevItems;
     });
-  }    
+  }
 
   function removeItemFromCart(id) {     
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));   
